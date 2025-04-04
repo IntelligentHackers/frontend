@@ -23,7 +23,6 @@ import {
   BadgeCheck,
   Bell,
   ChevronsUpDown,
-  CreditCard,
   LogOut,
   Sparkles,
 } from 'lucide-vue-next'
@@ -90,10 +89,6 @@ const { isMobile } = useSidebar()
             <DropdownMenuItem>
               <BadgeCheck />
               Account
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <CreditCard />
-              Billing
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Bell />

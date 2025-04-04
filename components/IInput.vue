@@ -2,7 +2,7 @@
 <template>
     <div
       ref="inputContainerRef"
-      :class="cn('group/input rounded-lg p-[2px] transition duration-300', props.containerClass)"
+      :class="cn('group/input rounded-lg p-[2px] w-full transition duration-300', props.containerClass)"
       :style="{
         background: containerBg,
       }"

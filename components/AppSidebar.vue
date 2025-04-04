@@ -1,43 +1,48 @@
 <script setup lang="ts">
+import type { SidebarProps } from '@/components/ui/sidebar'
 import NavMain from '@/components/NavMain.vue'
 import NavProjects from '@/components/NavProjects.vue'
-import NavSecondary from '@/components/NavSecondary.vue'
 import NavUser from '@/components/NavUser.vue'
+import TeamSwitcher from '@/components/TeamSwitcher.vue'
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  type SidebarProps,
+  SidebarRail,
 } from '@/components/ui/sidebar'
 import {
+  AudioWaveform,
   BookOpen,
   Bot,
   Command,
   Frame,
-  LifeBuoy,
+  GalleryVerticalEnd,
   Map,
   PieChart,
-  Send,
   Settings2,
   SquareTerminal,
 } from 'lucide-vue-next'
 const props = withDefaults(defineProps<SidebarProps>(), {
-  variant: 'inset',
+  collapsible: 'icon',
 })
+
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
+    name: 'username',
+    email: 'admin@gensync.com',
     avatar: '/avatars/shadcn.jpg',
-    
   },
+  teams: [
+    {
+      name: 'GenSync',
+      logo: GalleryVerticalEnd,
+      plan: 'Project',
+    }
+  ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Match',
       url: '#',
       icon: SquareTerminal,
       isActive: true,
@@ -57,7 +62,7 @@ const data = {
       ],
     },
     {
-      title: 'Models',
+      title: 'ChatBox',
       url: '#',
       icon: Bot,
       items: [
@@ -76,30 +81,7 @@ const data = {
       ],
     },
     {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
+      title: 'Profile',
       url: '#',
       icon: Settings2,
       items: [
@@ -121,64 +103,21 @@ const data = {
         },
       ],
     },
-  ],
-  navSecondary: [
-    {
-      title: 'Support',
-      url: '#',
-      icon: LifeBuoy,
-    },
-    {
-      title: 'Feedback',
-      url: '#',
-      icon: Send,
-    },
-  ],
-  projects: [
-    {
-      name: 'Design Engineering',
-      url: '#',
-      icon: Frame,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
-    },
-  ],
+  ]
 }
 </script>
 <template>
   <Sidebar v-bind="props">
     <SidebarHeader>
-      <SidebarMenu>
-        <SidebarMenuItem>
-          <SidebarMenuButton size="lg" as-child>
-            <a href="#">
-              <div class="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <Command class="size-4" />
-              </div>
-              <div class="grid flex-1 text-left text-sm leading-tight">
-                <span class="truncate font-semibold">Acme Inc</span>
-                <span class="truncate text-xs">Enterprise</span>
-              </div>
-            </a>
-          </SidebarMenuButton>
-        </SidebarMenuItem>
-      </SidebarMenu>
+      <TeamSwitcher :teams="data.teams" />
     </SidebarHeader>
     <SidebarContent>
       <NavMain :items="data.navMain" />
       <NavProjects :projects="data.projects" />
-      <NavSecondary :items="data.navSecondary" class="mt-auto" />
     </SidebarContent>
     <SidebarFooter>
       <NavUser :user="data.user" />
     </SidebarFooter>
+    <SidebarRail class="border-gray-300" />
   </Sidebar>
 </template>
