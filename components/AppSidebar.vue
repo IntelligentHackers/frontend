@@ -12,14 +12,8 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import {
-  AudioWaveform,
-  BookOpen,
   Bot,
-  Command,
-  Frame,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
   Settings2,
   SquareTerminal,
 } from 'lucide-vue-next'
@@ -36,8 +30,7 @@ const data = {
   teams: [
     {
       name: 'GenSync',
-      logo: GalleryVerticalEnd,
-      plan: 'Project',
+      plan: 'AI Community',
     }
   ],
   navMain: [
@@ -46,62 +39,19 @@ const data = {
       url: '#',
       icon: SquareTerminal,
       isActive: true,
-      items: [
-        {
-          title: 'History',
-          url: '#',
-        },
-        {
-          title: 'Starred',
-          url: '#',
-        },
-        {
-          title: 'Settings',
-          url: '#',
-        },
-      ],
+      items: [],
     },
     {
       title: 'ChatBox',
       url: '#',
       icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
-        },
-      ],
+      items: [],
     },
     {
       title: 'Profile',
       url: '#',
       icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
-          url: '#',
-        },
-      ],
+      items: [],
     },
   ]
 }
@@ -118,6 +68,6 @@ const data = {
     <SidebarFooter>
       <NavUser :user="data.user" />
     </SidebarFooter>
-    <SidebarRail class="border-gray-300" />
+    <SidebarRail />
   </Sidebar>
 </template>

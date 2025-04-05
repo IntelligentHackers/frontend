@@ -1,6 +1,6 @@
 <script lang="ts">
 export const description
-  = 'A sidebar that collapses to icons.'
+  = 'GenSync AI Community'
 export const iframeHeight = '800px'
 export const containerClass = 'w-full h-full'
 </script>
@@ -20,7 +20,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar'
-// 模拟对话内容的 JSON 数据
+
 const messages = ref([
   { role: 'system', content: 'Hello! How can I help you today?' },
   { role: 'user', content: 'What is the weather like?' },
@@ -73,18 +73,18 @@ const users = [
             <BreadcrumbList>
               <BreadcrumbItem class="hidden md:block">
                 <BreadcrumbLink href="#">
-                  Building Your Application
+                  Platform
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator class="hidden md:block" />
               <BreadcrumbItem>
-                <BreadcrumbPage>Data Fetching</BreadcrumbPage>
+                <BreadcrumbPage>ChatBox</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </header>
-      <div v-if="false" class="flex flex-1 gap-6 p-6 pt-0">
+      <div class="flex flex-1 gap-6 p-6 pt-0">
         <div class="w-80 border-r border-gray-300">
           <h1 class="text-xl font-bold mb-4">Address List</h1>
           <div v-for="user in users" :key="user.id" class="flex items-center space-x-4 py-3">
@@ -114,10 +114,6 @@ const users = [
             <SetupButton class="h-10" @click="sendMessage" :disabled="input.trim() === ''" :text="'Send'" />
           </div>
         </div>
-      </div>
-      <div v-else class="flex flex-1 gap-6 p-6 pt-0">
-        <h1 class="text-xl font-bold mb-4">Match</h1>
-        
       </div>
     </SidebarInset>
   </SidebarProvider>
