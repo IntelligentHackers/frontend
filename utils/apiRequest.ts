@@ -1,7 +1,7 @@
 // utils/apiRequest.ts
 import axios from 'axios'
 
-const baseURL = 'http://172.20.10.4:8000/api' // ⚠️ 替换成你自己的 API 地址
+const baseURL = 'https://gensyncapi.7086cmd.me/api' // ⚠️ 替换成你自己的 API 地址
 
 const api = axios.create({
   baseURL,

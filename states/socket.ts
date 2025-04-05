@@ -13,7 +13,7 @@ export const useSocketStore = defineStore('socket', {
   actions: {
     connect() {
       if (!socket) {
-        socket = io('http://172.20.10.4:8000', {
+        socket = io('wss://gensyncapi.7086cmd.me', {
           path: '/socket.io/',
           transports: ['websocket'], // 强制使用 WebSocket，如果不确定可以删掉这行
           auth: {

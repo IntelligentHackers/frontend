@@ -5,7 +5,7 @@ import { ElNotification } from 'element-plus'
 import { byteArrayToHex } from '@/composables/utils'
 import { encryptData, importPublicKey } from '@/composables/crypto'
 
-const baseurl = 'http://172.20.10.4:8000/api'
+const baseurl = 'https://gensyncapi.7086cmd.me/api'
 
 export async function getRSAPublicCert(): Promise<string> {
   const result = (await axios(baseurl+'/cert', {
