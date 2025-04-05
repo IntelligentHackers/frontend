@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 onMounted(() => {
-  // document.documentElement.classList.add('dark')
+  document.documentElement.classList.add('dark')
 })
 </script>
 
@@ -15,7 +15,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  background-color: #f7fafc;
+  background-color: #000;
 }
 
 .page-enter-active,

@@ -24,8 +24,7 @@ const props = withDefaults(defineProps<SidebarProps>(), {
 const data = {
   user: {
     name: 'username',
-    email: 'admin@gensync.com',
-    avatar: '/avatars/shadcn.jpg',
+    email: 'admin@gensync.com'
   },
   teams: [
     {
@@ -36,14 +35,14 @@ const data = {
   navMain: [
     {
       title: 'Match',
-      url: '#',
+      url: '/match',
       icon: SquareTerminal,
       isActive: true,
       items: [],
     },
     {
       title: 'ChatBox',
-      url: '#',
+      url: '/chat',
       icon: Bot,
       items: [],
     },

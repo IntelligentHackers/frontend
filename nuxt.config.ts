@@ -11,6 +11,8 @@ export default defineNuxtConfig({
     'motion-v/nuxt',
     '@nuxtjs/tailwindcss',
     'shadcn-nuxt',
+    'nuxt-socket-io',
+    '@pinia/nuxt'
   ],
   shadcn: {
     /**
@@ -25,5 +27,5 @@ export default defineNuxtConfig({
   },
   css: ["@/assets/css/tailwind.css"],
   compatibilityDate: '2025-04-04',
-  devtools: { enabled: true },
+  devtools: { enabled: false },
 })

@@ -153,7 +153,7 @@
     <transition name="slide-left" mode="out-in">
       <div v-if="step === 'textChat'" key="textChat" style="position: fixed; width: calc(100% - 3rem); height: 21rem;"
         class="flex flex-col max-w-2xl mx-auto">
-        <div style="background: #ECECEC; width: 100%">
+        <div style="width: 100%">
           <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-1">Text Conversation</h1>
           <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">
             We’re listening to your voice input in real time.
@@ -167,7 +167,19 @@
               ? 'ml-auto bg-blue-100 dark:bg-blue-800 text-gray-800 dark:text-gray-100 rounded-xl rounded-tr-none'
               : 'mr-auto bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-100 rounded-xl rounded-tl-none'
           ]">
-            {{ message.content }}
+            <TextGenerateEffect
+              :words="message.content"
+            />
+          </div>
+          <div v-if="loadingText"
+            class="w-fit max-w-[80%] px-4 py-2 text-sm mr-auto bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-100 rounded-xl rounded-tl-none">
+            <ClientOnly>
+              <RadientText
+                class="transition ease-out hover:text-neutral-600 hover:duration-300 hover:dark:text-neutral-400"
+                :duration="1">
+                Loading...
+              </RadientText>
+            </ClientOnly>
           </div>
         </div>
 
@@ -182,53 +194,37 @@
     <transition name="slide-left" mode="out-in">
       <div v-if="step === 'AllDone'" key="AllDone" style="position: fixed; width: calc(100% - 3rem); height: 21rem;"
         class="flex flex-col max-w-2xl mx-auto">
-        <div style="background: #ECECEC; width: 100%">
-          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">Text Conversation</h1>
-          <p class="text-gray-600 dark:text-gray-300 text-sm mb-2">
-            We’re listening to your voice input in real time.
-          </p>
+        <div style="width: 100%">
+          <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-1">You are all set!</h1>
         </div>
-        <!-- 对话框区域 -->
-        <div class="flex-1 overflow-y-auto space-y-4 px-1">
-          <div v-for="(message, index) in messages" :key="index" :class="[
-            'w-fit max-w-[80%] px-4 py-2 text-sm',
-            message.role === 'user'
-              ? 'ml-auto bg-blue-100 dark:bg-blue-800 text-gray-800 dark:text-gray-100 rounded-xl rounded-tr-none'
-              : 'mr-auto bg-gray-100 dark:bg-zinc-800 text-gray-800 dark:text-gray-100 rounded-xl rounded-tl-none'
-          ]">
-            {{ message.content }}
-          </div>
+        <Confetti
+          ref="confettiRef"
+          class="absolute left-0 top-0 z-0 size-full"
+          style="pointer-events: none;"
+        />
+        <FontAwesomeIcon :icon="faCheckCircle" class="text-7xl text-gray-700 dark:text-white mt-14 mb-14" />
+        <SetupButton style="cursor: pointer;" :text="'Match & Chat →'" @click="navigateTo('/Match')"></SetupButton>
+      
         </div>
-
-        <!-- 底部输入框 -->
-        <div class="flex gap-2 items-center">
-          <Input v-model="input" placeholder="Type your message..." class="flex-1" @keydown.enter="sendMessage" />
-          <Button @click="sendMessage" :disabled="input.trim() === ''">
-            <FontAwesomeIcon :icon="faPaperPlane" class="text-2xl text-gray-700 dark:text-white w-10" />
-          </Button>
-        </div>
-      </div>
     </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, nextTick, onMounted, watch } from 'vue'
+import { useLongTermAuth } from '@/composables/useAuth'
 import { useRouter } from 'vue-router'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faArrowRight, faChild, faUserTie, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight, faChild, faUserTie, faCheck, faCheckCircle } from '@fortawesome/free-solid-svg-icons'
 import { faGoogle, faApple } from '@fortawesome/free-brands-svg-icons'
-import { faPaperPlane } from '@fortawesome/free-regular-svg-icons'
+import { faCircleCheck } from '@fortawesome/free-regular-svg-icons'
+import { useSocketStore } from '@/states/socket'
+import { ElNotification } from 'element-plus'
 
-import { Input } from '@/components/ui/input'
-import { Button } from '@/components/ui/button'
+const socketStore = useSocketStore()
 
 // 模拟对话内容的 JSON 数据
-const messages = ref([
-  { role: 'system', content: 'Hello! How can I help you today?' },
-  { role: 'user', content: 'What is the weather like?' },
-  { role: 'system', content: 'It’s sunny and 25°C today.' },
-])
+const messages = ref<Array<{ role: 'user' | 'system', content: string }>>([])
 
 // 输入框绑定值
 const input = ref('')
@@ -244,23 +240,27 @@ const sendMessage = () => {
     content: cachemsg,
   })
 
-  // 模拟系统回复
-  setTimeout(() => {
-    messages.value.push({
-      role: 'system',
-      content: 'You said: ' + cachemsg,
-    })
-  }, 500)
+  loadingText.value = true
+
+  socketStore.socket.emit('registration_message_send', {
+    receive_type: 'chatting',
+    session: registrationSession.value,
+    user_auth: localStorage.getItem('_id'),
+    message: cachemsg
+  })
 
   input.value = ''
 }
 
 const micGranted = ref(false)
+const registrationSession = ref('')
 const levels = ref([0, 0, 0, 0]) // 初始竖条高度
 
 let audioContext: AudioContext | null = null
 let analyser: AnalyserNode | null = null
 let dataArray: Uint8Array
+
+const confettiRef = ref(null);
 
 onMounted(() => {
   if (step.value === 'voiceChat') {
@@ -317,15 +317,51 @@ const updateLevels = () => {
 }
 
 const openVoicechat = () => {
+  socketStore.connect()
+
+
+  socketStore.socket.on('registration_message_receive', (msg: string) => {
+    const data = JSON.parse(msg) as {
+      send_type: 'completed' | 'processing',
+      session: string
+      user_auth: string,
+      message: string
+    }
+    registrationSession.value = data.session
+    loadingText.value = false
+    if (data.send_type === 'completed') {
+      step.value = 'AllDone'
+      confettiRef.value?.fire({})
+    } else {
+      messages.value.push({
+        role: 'system',
+        content: data.message
+      })
+    }
+  })
+
+
   step.value = 'voiceChat'
+
   initMic()
 }
 
 const switchToTextMode = () => {
+  loadingText.value = true
+  socketStore.socket.emit('registration_message_send', {
+    receive_type: 'initiate',
+    session: '',
+    user_auth: localStorage.getItem('_id'),
+    message: JSON.stringify({
+      lang: navigator.language,
+      email: email.value
+    })
+  })
   step.value = 'textChat'
 }
 
 const router = useRouter()
+const loadingText = ref(false)
 const email = ref('')
 const password = ref('')
 const isValidEmail = computed(() => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value))
@@ -369,10 +405,10 @@ watch(step, (val) => {
 
 const goToPassword = () => {
   if (isValidEmail.value)
-    // step.value = 'password'
-    step.value = 'mailverify'
-  codeInputs.value[0]?.focus()
-  startCountdown()
+    step.value = 'password'
+  //step.value = 'mailverify'
+  //codeInputs.value[0]?.focus()
+  //startCountdown()
 }
 
 // 输入自动跳转 + 完成时 alert
@@ -409,8 +445,17 @@ const onBackspace = (index: number) => {
   }
 }
 
-const goToRoleSelection = () => {
-  step.value = 'selectRole'
+const goToRoleSelection = async () => {
+  try {
+    const result = await useLongTermAuth(email.value, password.value)
+    if (result?.token) {
+      step.value = 'selectRole'
+    } else {
+      ElNotification({ title: '登录失败', type: 'error', message: `请稍后再试` })
+    }
+  } catch (e) {
+    ElNotification({ title: '登录失败', type: 'error', message: `请稍后再试` })
+  }
 }
 
 const navigateTo = (path: string) => {

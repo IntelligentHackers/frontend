@@ -59,31 +59,76 @@ import 'swiper/css';
             <img src="@/public/static/images/01.jpg" alt="">
             <div class="swiper-tinder-label swiper-tinder-label-yes">Like</div>
             <div class="swiper-tinder-label swiper-tinder-label-no">Nope</div>
-            <div class="demo-slide-name"><b>Sabrina</b>, 23</div>
+            <div class="demo-slide-name">
+                <div class="flex">
+                    <b>Sabrina</b>, 189
+                </div>
+                <div class="demo-slide-tags">
+                    <span class="tag">危产</span>
+                    <span class="tag">今年临床</span>
+                    <span class="tag">6个子女家庭核墓</span>
+                </div>
+            </div>
           </swiper-slide>
           <swiper-slide>
             <img src="@/public/static/images/02.jpg" alt="">
             <div class="swiper-tinder-label swiper-tinder-label-yes">Like</div>
             <div class="swiper-tinder-label swiper-tinder-label-no">Nope</div>
-            <div class="demo-slide-name"><b>Jane</b>, 32</div>
+            <div class="demo-slide-name">
+                <div class="flex">
+                    <b>Sabrina</b>, 189
+                </div>
+                <div class="demo-slide-tags">
+                    <span class="tag">中产</span>
+                    <span class="tag">今年66岁</span>
+                    <span class="tag">6个子女家庭和睦</span>
+                </div>
+            </div>
           </swiper-slide>
           <swiper-slide>
             <img src="@/public/static/images/03.jpg" alt="">
             <div class="swiper-tinder-label swiper-tinder-label-yes">Like</div>
             <div class="swiper-tinder-label swiper-tinder-label-no">Nope</div>
-            <div class="demo-slide-name"><b>Jessica</b>, 24</div>
+            <div class="demo-slide-name">
+                <div class="flex">
+                    <b>Sabrina</b>, 189
+                </div>
+                <div class="demo-slide-tags">
+                    <span class="tag">中产</span>
+                    <span class="tag">今年66岁</span>
+                    <span class="tag">6个子女家庭和睦</span>
+                </div>
+            </div>
           </swiper-slide>
           <swiper-slide>
             <img src="@/public/static/images/04.jpg" alt="">
             <div class="swiper-tinder-label swiper-tinder-label-yes">Like</div>
             <div class="swiper-tinder-label swiper-tinder-label-no">Nope</div>
-            <div class="demo-slide-name"><b>Kate</b>, 33</div>
+            <div class="demo-slide-name">
+                <div class="flex">
+                    <b>Sabrina</b>, 189
+                </div>
+                <div class="demo-slide-tags">
+                    <span class="tag">中产</span>
+                    <span class="tag">今年66岁</span>
+                    <span class="tag">6个子女家庭和睦</span>
+                </div>
+            </div>
           </swiper-slide>
           <swiper-slide>
             <img src="@/public/static/images/05.jpg" alt="">
             <div class="swiper-tinder-label swiper-tinder-label-yes">Like</div>
             <div class="swiper-tinder-label swiper-tinder-label-no">Nope</div>
-            <div class="demo-slide-name"><b>Helen</b>, 37</div>
+            <div class="demo-slide-name">
+                <div class="flex">
+                    <b>Sabrina</b>, 189
+                </div>
+                <div class="demo-slide-tags">
+                    <span class="tag">中产</span>
+                    <span class="tag">今年66岁</span>
+                    <span class="tag">6个子女家庭和睦</span>
+                </div>
+            </div>
           </swiper-slide>
           <swiper-slide>
             There are no more recommendations
@@ -159,5 +204,20 @@ import 'swiper/css';
 }
 .demo-empty-slide::before {
   display: none;
+}
+.demo-slide-tags {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #f0f0f0;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  white-space: nowrap;
 }
 </style>
